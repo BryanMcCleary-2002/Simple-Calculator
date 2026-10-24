@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>Calculator</title>
+  </head>
+  <body>
+       <div id="calcuator" class="calculator">
+                    <h2>Calculator</h2>
+                    <input type="text" id="display">
+
+                    <div>
+                        <button onclick="apndNum('1')">1</button>
+                        <button onclick="apndNum('2')">2</button>
+                        <button onclick="apndNum('3')">3</button>
+
+                        <button onclick="processOper('+')">+</button>
+                        <br>
+
+                        <button onclick="apndNum('4')">4</button>
+                        <button onclick="apndNum('5')">5</button>
+                        <button onclick="apndNum('6')">6</button>
+
+                        <button onclick="processOper('-')">-</button>
+                        <br>
+
+                        <button onclick="apndNum('7')">7</button>
+                        <button onclick="apndNum('8')">8</button>
+                        <button onclick="apndNum('9')">9</button>
+                        
+                        <button onclick="processOper('*')">x</button>
+                        <br>
+                        
+                        <button onclick="clearDis()">C</button>
+                        <button onclick="apndNum('0')">0</button>
+                        <button onclick="calculate()">=</button>
+                        <button onclick="processOper('/')">÷</button>
+                    </div>
+
+                    <script>
+                        //the working number
+                        let numA = '';
+                        //the previous working number to be operated on
+                        let numB = '';
+                        //the operation to be done between A and B
+                        let oper = '';
+
+                        function apndNum(number) {
+                            numA += number;
+                            document.getElementById('display').value = `${numB} ${oper} ${numA}`;
+                        }
+                        function processOper(operation) {
+                            if (numA === '') return;
+                            if (numB !== '') {
+                                calculate();
+                            }
+                            
+                            oper = operation;
+                            numB = numA;
+                            numA = '';
+                            document.getElementById('display').value = `${numB} ${oper}`;
+                        }
+                        function calculate() {
+                            if (numB === '' || numA === '') return;
+                            
+                            //better naming conventions might be needed here since the names get flipped
+                            let output;
+                            let A = parseFloat(numB);
+                            let B = parseFloat(numA);
+                            
+                            switch (oper) {
+                                case '+':
+                                    output = A + B;
+                                    break;
+                                case '-':
+                                    output = A - B;
+                                    break;
+                                case '*':
+                                    output = A * B;
+                                    break;
+                                case '/':
+                                    if (B === 0) {
+                                        document.getElementById('display').value = "Undifined";
+                                        return;
+                                    }
+                                    output = A / B;
+                                    break;
+                                default:
+                                    return;
+                            }
+                            
+                            numA = output.toString();
+                            oper = '';
+                            numB = '';
+                            document.getElementById('display').value = numA;
+                        }
+                        //TODO: this doesn't clear the text feild in input
+                        function clearDis() {
+                            numA = '';
+                            numB = '';
+                            oper = '';
+                            document.getElementById('display').value = '';
+                            console.log(
+                            numA,
+                            numB,
+                            oper
+                            );
+                            return;
+                        }
+                    </script>
+                </div>
+  </body>
+</html>
